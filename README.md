@@ -1,43 +1,43 @@
 # SPF Spoofing Test
 
-SPF Spoofing Test, bir alan adının e-posta sahteciliğine (email spoofing) karşı ne kadar dayanıklı olduğunu değerlendirmek amacıyla geliştirilmiş bir Python aracıdır. Araç, hedef alan adının SPF (Sender Policy Framework) yapılandırmasını kontrol eder ve SPF korumasının bulunmadığı veya yanlış yapılandırıldığı senaryolarda e-posta sunucularının bu durumu nasıl ele aldığını gözlemlemeye yardımcı olur.
+SPF Spoofing Test is a Python-based utility designed to help security professionals assess whether a domain is vulnerable to email spoofing due to missing or improperly configured SPF (Sender Policy Framework) records.
 
-Bu araç özellikle güvenlik araştırmacıları, sistem yöneticileri ve sızma testi uzmanları için geliştirilmiştir. SPF kaydının bulunmaması veya hatalı yapılandırılması durumunda saldırganlar alan adı sahibini taklit eden e-postalar gönderebilir. Bu durum kimlik avı (phishing), marka taklidi ve sosyal mühendislik saldırıları için ciddi bir risk oluşturur.
+The tool performs SPF validation checks, resolves MX records, and attempts to send a test email using a specified sender address. This allows administrators and security researchers to evaluate how recipient mail servers handle messages originating from domains without proper email authentication controls.
 
-Araç yalnızca sahibi olduğunuz veya açık yetkiye sahip olduğunuz sistemlerde kullanılmalıdır.
-
----
-
-# Özellikler
-
-* SPF kaydı kontrolü
-* MX kayıtlarının otomatik çözülmesi
-* Hedef MX sunucusuna doğrudan teslimat desteği
-* Özel gönderen adresi tanımlayabilme
-* Özel konu ve içerik desteği
-* SMTP kimlik doğrulama desteği
-* TLS ve SSL desteği
-* SPF eksikliği durumunda güvenlik önerileri
-* Ayrıntılı SMTP hata çıktıları
+This project is intended for educational purposes, authorized security assessments, and defensive security research only.
 
 ---
 
-# Gereksinimler
+# Features
 
-* Python 3.8 veya üzeri
+* SPF record detection
+* MX record resolution
+* Direct delivery to recipient mail servers
+* Custom sender address support
+* Custom email subject and message body
+* SMTP authentication support
+* TLS and SSL support
+* Detailed SMTP debugging output
+* Security recommendations for domains lacking SPF protection
+
+---
+
+# Requirements
+
+* Python 3.8 or later
 * dnspython
 
 ---
 
-# Kurulum
+# Installation
 
-Gerekli bağımlılığı yükleyin:
+Install the required dependency:
 
 ```bash
 pip install dnspython
 ```
 
-Depoyu klonlayın:
+Clone the repository:
 
 ```bash
 git clone https://github.com/USERNAME/spf-spoof-test.git
@@ -46,9 +46,9 @@ cd spf-spoof-test
 
 ---
 
-# Kullanım
+# Usage
 
-Öncelikle göndermek istediğiniz e-posta içeriğini bir dosyada oluşturun:
+First, create a file containing the email body:
 
 ```bash
 cat > body.txt << 'EOF'
@@ -60,7 +60,7 @@ See you!
 EOF
 ```
 
-Ardından aracı çalıştırın:
+Then execute the script:
 
 ```bash
 python3 spf_spoof_test.py \
@@ -71,42 +71,42 @@ python3 spf_spoof_test.py \
     --message "$(cat body.txt)"
 ```
 
-Program çalıştırıldığında yetkinizin olup olmadığını doğrulamak amacıyla aşağıdaki soruyu soracaktır:
+Before performing any action, the tool will ask for confirmation:
 
 ```text
 Do you own 'keensafe.com' and have authorization to test this? (yes/no):
 ```
 
-Yalnızca ilgili alan adı üzerinde test yapma yetkiniz varsa devam etmelisiniz.
+Proceed only if you own the domain or have explicit authorization to perform the assessment.
 
 ---
 
-# Parametreler
+# Command Line Options
 
-| Parametre        | Açıklama                                     |
-| ---------------- | -------------------------------------------- |
-| `--domain`       | Test edilecek alan adı                       |
-| `--sender`       | Kullanılacak gönderen adresi                 |
-| `--to`           | Alıcı e-posta adresi                         |
-| `--direct`       | Mesajı doğrudan hedef MX sunucusuna gönderir |
-| `--server`       | SMTP sunucusu                                |
-| `--port`         | SMTP portu                                   |
-| `--tls`          | STARTTLS kullanır                            |
-| `--ssl`          | SSL kullanır                                 |
-| `--user`         | SMTP kullanıcı adı                           |
-| `--pass`         | SMTP parolası                                |
-| `--subject`      | E-posta konusu                               |
-| `--message`      | E-posta içeriği                              |
-| `--timeout`      | Bağlantı zaman aşımı                         |
-| `--no-spf-check` | SPF kontrolünü atlar                         |
+| Option           | Description                                   |
+| ---------------- | --------------------------------------------- |
+| `--domain`       | Domain to test                                |
+| `--sender`       | Custom sender email address                   |
+| `--to`           | Recipient email address                       |
+| `--direct`       | Deliver directly to the recipient's MX server |
+| `--server`       | SMTP server                                   |
+| `--port`         | SMTP port                                     |
+| `--tls`          | Enable STARTTLS                               |
+| `--ssl`          | Enable SSL                                    |
+| `--user`         | SMTP username                                 |
+| `--pass`         | SMTP password                                 |
+| `--subject`      | Email subject                                 |
+| `--message`      | Email body                                    |
+| `--timeout`      | Connection timeout                            |
+| `--no-spf-check` | Skip SPF verification                         |
 
 ---
 
-# Kullanım Örnekleri
+# Usage Examples
 
-## Doğrudan MX Sunucusuna Gönderim
+## Direct MX Delivery
 
-Bu yöntem hedef alan adının MX kayıtlarını çözerek mesajı doğrudan ilgili e-posta sunucusuna iletmeye çalışır.
+This method resolves the recipient domain's MX records and attempts to deliver the message directly to the destination mail server.
 
 ```bash
 python3 spf_spoof_test.py \
@@ -119,9 +119,9 @@ python3 spf_spoof_test.py \
 
 ---
 
-## SMTP Sunucusu Kullanarak Gönderim
+## SMTP Relay Delivery
 
-Kimlik doğrulaması gerektiren SMTP sunucuları için kullanılabilir.
+Use an authenticated SMTP server to send the test email.
 
 ```bash
 python3 spf_spoof_test.py \
@@ -138,17 +138,19 @@ python3 spf_spoof_test.py \
 
 ---
 
-# Araç Nasıl Çalışır?
+# How It Works
 
-Araç öncelikle hedef alan adının SPF kaydını kontrol eder. Eğer SPF kaydı bulunamazsa kullanıcıya alan adının e-posta sahteciliğine karşı savunmasız olabileceği bilgisi verilir.
+The tool begins by checking whether the target domain publishes an SPF record. If no SPF record is found, the domain may be susceptible to sender impersonation attacks because receiving mail servers have limited ability to verify whether a sender is authorized to send mail on behalf of that domain.
 
-Ardından belirtilen alıcı adresinin MX kayıtları çözülür ve e-posta doğrudan ilgili posta sunucusuna gönderilmeye çalışılır. E-posta başlığında belirtilen gönderen adresi test edilen alan adı kullanılarak oluşturulur.
+If direct delivery mode is enabled, the script resolves the recipient domain's MX records and connects directly to the mail server responsible for receiving messages for that domain.
 
-Bu süreç sayesinde e-posta altyapısının SPF eksikliği durumunda nasıl davrandığı gözlemlenebilir ve gerekli güvenlik önlemleri alınabilir.
+The message is then sent using the specified sender address, allowing administrators and security professionals to observe how recipient mail systems process emails originating from domains without proper SPF protection.
+
+The goal is to help identify weak email authentication configurations and encourage the implementation of industry-standard protections.
 
 ---
 
-# Örnek Çıktı
+# Example Output
 
 ```text
 ============================================================
@@ -174,9 +176,9 @@ SPF SPOOFING TEST - FOR AUTHORIZED TESTING ONLY
 
 ---
 
-# Güvenlik Önerileri
+# Recommended Security Controls
 
-Bir alan adının e-posta sahteciliğine karşı korunabilmesi için aşağıdaki mekanizmaların birlikte kullanılması önerilir.
+To protect a domain against email spoofing and impersonation attacks, the following technologies should be deployed together.
 
 ## SPF
 
@@ -184,13 +186,13 @@ Bir alan adının e-posta sahteciliğine karşı korunabilmesi için aşağıdak
 v=spf1 mx ~all
 ```
 
-SPF, hangi sunucuların alan adınız adına e-posta göndermeye yetkili olduğunu belirtir.
+SPF specifies which mail servers are authorized to send email on behalf of your domain.
 
 ---
 
 ## DKIM
 
-DKIM, gönderilen e-postaların kriptografik olarak imzalanmasını sağlar ve mesajın değiştirilmediğini doğrular.
+DKIM (DomainKeys Identified Mail) cryptographically signs outgoing emails, allowing receiving mail servers to verify message authenticity and integrity.
 
 ---
 
@@ -200,20 +202,22 @@ DKIM, gönderilen e-postaların kriptografik olarak imzalanmasını sağlar ve m
 v=DMARC1; p=reject;
 ```
 
-DMARC, SPF ve DKIM sonuçlarını değerlendirerek başarısız doğrulamalara karşı uygulanacak politikayı belirler.
+DMARC builds upon SPF and DKIM by defining how receiving mail servers should handle messages that fail authentication checks.
 
 ---
 
-# Sorumluluk Reddi
+# Disclaimer
 
-Bu yazılım yalnızca eğitim, araştırma ve yetkili güvenlik testleri amacıyla geliştirilmiştir.
+This software is provided for educational purposes, defensive security research, and authorized security testing only.
 
-Kullanıcılar aracı kullanmadan önce gerekli izinlere sahip olduklarından emin olmalıdır. Yazılımın kötüye kullanılması, izinsiz test faaliyetleri veya üçüncü taraf sistemlerde gerçekleştirilen işlemlerden doğabilecek hukuki ve teknik sonuçlardan kullanıcı sorumludur.
+Users are solely responsible for ensuring they have proper authorization before conducting any assessment. Unauthorized testing of systems, domains, or infrastructure that you do not own or manage may violate applicable laws, regulations, and service provider policies.
 
-Yazar, yazılımın kullanımından kaynaklanabilecek herhangi bir zarar, veri kaybı, hizmet kesintisi veya yasal sorumluluktan yükümlü değildir.
+The author assumes no responsibility for misuse, unauthorized activities, service disruptions, data loss, legal consequences, or any damages resulting from the use of this software.
 
 ---
 
-# Lisans
+# License
 
-Bu proje MIT Lisansı altında dağıtılmaktadır. Detaylar için `LICENSE` dosyasına bakabilirsiniz.
+This project is released under the MIT License.
+
+See the `LICENSE` file for additional details.
