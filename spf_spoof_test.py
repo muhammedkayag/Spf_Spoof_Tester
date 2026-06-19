@@ -13,6 +13,8 @@ import time
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.utils import formatdate
+from termcolor import colored
+
 
 def check_spf_record(domain):
     try:
@@ -191,7 +193,23 @@ def main():
                         help='Connection timeout in seconds (default: 30)')
     
     args = parser.parse_args()
+    text = r"""
     
+                 (    (    (      (    (        )      )   (                  (                (     
+                 )\ ) )\ ) )\ )   )\ ) )\ )  ( /(   ( /(   )\ )    *   )      )\ )  *   )      )\ )  
+                (()/((()/((()/(  (()/((()/(  )\())  )\()) (()/(  ` )  /( (   (()/(` )  /( (   (()/(  
+                 /(_))/(_))/(_))  /(_))/(_))((_)\  ((_)\   /(_))  ( )(_)))\   /(_))( )(_)))\   /(_)) 
+                (_)) (_)) (_))_| (_)) (_))    ((_)   ((_) (_))_| (_(_())((_) (_)) (_(_())((_) (_))   
+                / __|| _ \| |_   / __|| _ \  / _ \  / _ \ | |_   |_   _|| __|/ __||_   _|| __|| _ \  
+                \__ \|  _/| __|  \__ \|  _/ | (_) || (_) || __|    | |  | _| \__ \  | |  | _| |   /  
+                |___/|_|  |_|    |___/|_|    \___/  \___/ |_|      |_|  |___||___/  |_|  |___||_|_\  
+                                       
+                                       by Mucahit Arslan & Muhammed Kaya
+                                                                                                     
+
+
+        """
+    print(colored(text, "red"))
     print("=" * 60)
     print("  SPF SPOOFING TEST - FOR AUTHORIZED TESTING ONLY")
     print("=" * 60)
