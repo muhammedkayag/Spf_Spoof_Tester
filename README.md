@@ -40,8 +40,8 @@ pip install dnspython
 Clone the repository:
 
 ```bash
-git clone https://github.com/USERNAME/spf-spoof-test.git
-cd spf-spoof-test
+git clone https://github.com/muhammedkayag/Spf_Spoof_Tester.git
+cd Spf_Spoof_Tester
 ```
 
 ---
@@ -54,7 +54,7 @@ First, create a file containing the email body:
 cat > body.txt << 'EOF'
 Hi there,
 
-Party this Friday at 6pm!
+This is a test mail for SPF Spoof
 
 See you!
 EOF
@@ -64,17 +64,17 @@ Then execute the script:
 
 ```bash
 python3 spf_spoof_test.py \
-    --domain keensafe.com \
-    --to armenace@proton.me \
+    --domain example.com \
+    --to security@example.net \
     --direct \
-    --subject "Party" \
+    --subject "SPF Spoof" \
     --message "$(cat body.txt)"
 ```
 
 Before performing any action, the tool will ask for confirmation:
 
 ```text
-Do you own 'keensafe.com' and have authorization to test this? (yes/no):
+Do you own 'example.com' and have authorization to test this? (yes/no):
 ```
 
 Proceed only if you own the domain or have explicit authorization to perform the assessment.
