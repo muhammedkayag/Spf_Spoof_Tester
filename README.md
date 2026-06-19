@@ -4,6 +4,8 @@ SPF Spoofing Tester is a Python-based utility designed to help security professi
 
 The tool performs SPF validation checks, resolves MX records, and attempts to send a test email using a specified sender address. This allows administrators and security researchers to evaluate how recipient mail servers handle messages originating from domains without proper email authentication controls.
 
+In addition to spoofing assessments, this repository also includes a bulk SPF auditing utility that can identify domains that do not publish SPF records.
+
 This project is intended for educational purposes, authorized security assessments, and defensive security research only.
 
 ---
@@ -19,6 +21,9 @@ This project is intended for educational purposes, authorized security assessmen
 * TLS and SSL support
 * Detailed SMTP debugging output
 * Security recommendations for domains lacking SPF protection
+* Bulk SPF record auditing
+* Automatic detection of domains without SPF records
+* Export SPF audit results to a file
 
 ---
 
@@ -139,6 +144,75 @@ python3 spf_spoof_test.py \
 
 ---
 
+# SPF Record Checker
+
+The repository also includes a secondary utility named `check_spf.py` that can audit multiple domains and identify which ones do not publish SPF records.
+
+This is useful for:
+
+* Email security assessments
+* Attack surface reviews
+* Domain inventory auditing
+* SPF deployment verification
+* Bulk security checks
+
+---
+
+## SPF Record Checker Usage
+
+Create a file containing one domain per line:
+
+```text
+example.com
+example.org
+example.net
+```
+
+Run the checker:
+
+```bash
+python3 check_spf.py domains.txt
+```
+
+---
+
+## SPF Record Checker Example Output
+
+```text
+Loaded 3 domain(s) from 'domains.txt'
+------------------------------------------------------------
+
+[1/3] Checking example.com... ✅ HAS SPF
+[2/3] Checking example.org... ❌ NO SPF
+[3/3] Checking example.net... ✅ HAS SPF
+
+------------------------------------------------------------
+
+Results:
+  Total domains checked: 3
+  Domains WITH SPF:     2
+  Domains WITHOUT SPF:  1
+
+Domains without SPF records:
+  - example.org
+
+Results also written to 'domains_without_spf.txt'
+```
+
+---
+
+## Output File
+
+When domains without SPF protection are discovered, the tool automatically creates:
+
+```text
+domains_without_spf.txt
+```
+
+The file contains one vulnerable domain per line and can be used for reporting or remediation activities.
+
+---
+
 # How It Works
 
 The tool begins by checking whether the target domain publishes an SPF record. If no SPF record is found, the domain may be susceptible to sender impersonation attacks because receiving mail servers have limited ability to verify whether a sender is authorized to send mail on behalf of that domain.
@@ -148,6 +222,24 @@ If direct delivery mode is enabled, the script resolves the recipient domain's M
 The message is then sent using the specified sender address, allowing administrators and security professionals to observe how recipient mail systems process emails originating from domains without proper SPF protection.
 
 The goal is to help identify weak email authentication configurations and encourage the implementation of industry-standard protections.
+
+---
+
+# How the SPF Record Checker Works
+
+The SPF Record Checker reads domains from a text file and performs DNS lookups against each domain.
+
+The script inspects TXT records and searches for SPF policies beginning with:
+
+```text
+v=spf1
+```
+
+For compatibility purposes, it also attempts to query legacy SPF DNS record types when available.
+
+Domains without SPF policies are reported to the console and written to an output file for further review.
+
+This utility provides a fast way to identify domains that may benefit from improved email authentication controls.
 
 ---
 
@@ -174,6 +266,27 @@ SPF SPOOFING TEST - FOR AUTHORIZED TESTING ONLY
 
 [✓] Email sent successfully!
 ```
+
+---
+
+# Repository Structure
+
+```text
+.
+├── spf_spoof_test.py
+├── check_spf.py
+├── requirements.txt
+├── README.md
+└── domains_without_spf.txt
+```
+
+### spf_spoof_test.py
+
+Performs authorized SPF spoofing assessments by attempting to send test emails using a specified sender identity.
+
+### check_spf.py
+
+Audits one or more domains and reports which domains do not publish SPF records.
 
 ---
 
@@ -214,5 +327,3 @@ This software is provided for educational purposes, defensive security research,
 Users are solely responsible for ensuring they have proper authorization before conducting any assessment. Unauthorized testing of systems, domains, or infrastructure that you do not own or manage may violate applicable laws, regulations, and service provider policies.
 
 The author assumes no responsibility for misuse, unauthorized activities, service disruptions, data loss, legal consequences, or any damages resulting from the use of this software.
-
-
