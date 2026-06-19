@@ -214,10 +214,4 @@ Users are solely responsible for ensuring they have proper authorization before 
 
 The author assumes no responsibility for misuse, unauthorized activities, service disruptions, data loss, legal consequences, or any damages resulting from the use of this software.
 
----
 
-# License
-
-This project is released under the MIT License.
-
-See the `LICENSE` file for additional details.
