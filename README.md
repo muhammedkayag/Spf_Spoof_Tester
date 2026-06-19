@@ -1,6 +1,6 @@
-# SPF Spoofing Test
+# SPF Spoofing Tester
 
-SPF Spoofing Test is a Python-based utility designed to help security professionals assess whether a domain is vulnerable to email spoofing due to missing or improperly configured SPF (Sender Policy Framework) records.
+SPF Spoofing Tester is a Python-based utility designed to help security professionals assess whether a domain is vulnerable to email spoofing due to missing or improperly configured SPF (Sender Policy Framework) records.
 
 The tool performs SPF validation checks, resolves MX records, and attempts to send a test email using a specified sender address. This allows administrators and security researchers to evaluate how recipient mail servers handle messages originating from domains without proper email authentication controls.
 
