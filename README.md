@@ -42,6 +42,7 @@ Clone the repository:
 ```bash
 git clone https://github.com/muhammedkayag/Spf_Spoof_Tester.git
 cd Spf_Spoof_Tester
+pip install -r requirements.txt
 ```
 
 ---
